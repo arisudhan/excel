@@ -8,7 +8,7 @@ function App() {
 
   const [dataHigh, setDataHigh] = useState([]);
   const [dataLow, setDataLow] = useState([]);
-
+  const [dayHigh, setDayHigh] = useState([])
 
   useEffect(() => {
     const filterReduceSort = data.filter((obj) => obj.Date === 20200101 &&
@@ -34,30 +34,58 @@ function App() {
 
     setDataLow(filterReduceSort)
   }, []);
+  useEffect(() => {
+    const dayHigh = [];
+    data.filter((obj) => obj.Date === 20200101 && obj.TimeDecimal > 9.08 &&
+      obj.TimeDecimal < 16.39)
+      .map(obj => {
+        (obj.High > dataHigh.at(-1)) ||
+          dayHigh.push(obj.High)
+
+
+      })
+
+    setDayHigh(dayHigh)
+  }, []);
+  useEffect(() => {
+    const dayHighfm = [];
+    data.filter((obj) => obj.Date === 20200101 && obj.TimeDecimal > 9.08 &&
+      obj.TimeDecimal < 16.39)
+      .map((obj) => (
+        (obj.High > dataHigh.at(-1))
+          ? (dayHighfm.push(obj.High))
+          : null
+
+
+      )})
+
+  setDayHigh(dayHighfm)
+}, []);
 
 
 
 
-  console.log(dataLow);
+
+console.log();
 
 
-  return (
-    <div className="app__excelData">
+return (
+  <div className="app__excelData">
 
-      {
+    {
 
-        <h1>{dataLow}</h1>
-
-
-
-      }
+      <h1>{dataHigh.at(-1)}</h1>
 
 
 
+    }
 
 
-    </div>
-  );
+
+
+
+  </div>
+);
 }
 
 export default App;
