@@ -35,57 +35,43 @@ function App() {
     setDataLow(filterReduceSort)
   }, []);
   useEffect(() => {
-    const dayHigh = [];
+    const dayHighFm = [];
     data.filter((obj) => obj.Date === 20200101 && obj.TimeDecimal > 9.08 &&
       obj.TimeDecimal < 16.39)
-      .map(obj => {
-        (obj.High > dataHigh.at(-1)) ||
-          dayHigh.push(obj.High)
+      .forEach((obj) => {
+        if (obj.High > dataHigh.at(-1)) {
+          dayHighFm.push(obj.High);
+        }
 
+      });
 
-      })
-
-    setDayHigh(dayHigh)
+    setDayHigh(dayHighFm)
   }, []);
-  useEffect(() => {
-    const dayHighfm = [];
-    data.filter((obj) => obj.Date === 20200101 && obj.TimeDecimal > 9.08 &&
-      obj.TimeDecimal < 16.39)
-      .map((obj) => (
-        (obj.High > dataHigh.at(-1))
-          ? (dayHighfm.push(obj.High))
-          : null
-
-
-      )})
-
-  setDayHigh(dayHighfm)
-}, []);
 
 
 
 
 
-console.log();
+  console.log();
 
 
-return (
-  <div className="app__excelData">
+  return (
+    <div className="app__excelData">
 
-    {
+      {
 
-      <h1>{dataHigh.at(-1)}</h1>
-
-
-
-    }
+        <h1>{dataHigh.at(-1)}</h1>
 
 
 
+      }
 
 
-  </div>
-);
+
+
+
+    </div>
+  );
 }
 
 export default App;
