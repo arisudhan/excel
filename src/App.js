@@ -6,12 +6,12 @@ import "./App.css";
 
 function App() {
 
-  const [dataHigh, setDataHigh] = useState([]);
-  const [dataLow, setDataLow] = useState([]);
+
   const [dayHigh, setDayHigh] = useState([])
+  const [dayLow, setDayLow] = useState([])
 
   useEffect(() => {
-    const filterReduceSort = data.filter((obj) => obj.Date === 20200101 &&
+    const filterReduceSortH = data.filter((obj) => obj.Date === 20200101 &&
       obj.TimeDecimal > 9.15 && obj.TimeDecimal < 9.31
     ).reduce(function (accumulator, curValue) {
       return accumulator.concat(curValue.High)
@@ -20,10 +20,9 @@ function App() {
 
     ).sort(function (a, b) { return a - b })
 
-    setDataHigh(filterReduceSort)
-  }, []);
-  useEffect(() => {
-    const filterReduceSort = data.filter((obj) => obj.Date === 20200101 &&
+    console.log(filterReduceSortH.at(-1));
+
+    const filterReduceSortL = data.filter((obj) => obj.Date === 20200101 &&
       obj.TimeDecimal > 9.15 && obj.TimeDecimal < 9.31
     ).reduce(function (accumulator, curValue) {
       return accumulator.concat(curValue.Low)
@@ -32,35 +31,53 @@ function App() {
 
     ).sort(function (a, b) { return a - b })
 
-    setDataLow(filterReduceSort)
-  }, []);
-  useEffect(() => {
-    const dayHighFm = [];
+    console.log(filterReduceSortL.at(1));
+
+    const dayHighFf = [];
     data.filter((obj) => obj.Date === 20200101 && obj.TimeDecimal > 9.08 &&
       obj.TimeDecimal < 16.39)
       .forEach((obj) => {
-        if (obj.High > dataHigh.at(-1)) {
-          dayHighFm.push(obj.High);
+        if (obj.High > filterReduceSortH.at(-1)) {
+          dayHighFf.push(obj.High);
         }
 
       });
 
-    setDayHigh(dayHighFm)
+    setDayHigh(dayHighFf)
+
+    const dayLowFf = [];
+    data.filter((obj) => obj.Date === 20200101 && obj.TimeDecimal > 9.08 &&
+      obj.TimeDecimal < 16.39)
+      .forEach((obj) => {
+        if (obj.Low < filterReduceSortL.at(1)) {
+          dayLowFf.push(obj.Low);
+        }
+
+      });
+
+    setDayLow(dayLowFf)
   }, []);
 
+  console.log(dayHigh)
+  console.log(dayLow);
 
 
 
 
-  console.log();
+
 
 
   return (
     <div className="app__excelData">
 
       {
+        <div>
 
-        <h1>{dataHigh.at(-1)}</h1>
+          <h3>{dayHigh}</h3>
+
+          <h3>{dayLow}</h3>
+
+        </div>
 
 
 
